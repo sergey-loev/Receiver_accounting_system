@@ -21,7 +21,7 @@
 ![screenshot_4](screenshots/4.png)
 
 5. Выложить историю команд в терминале ubuntu   
-([Ссылка](https://skillbox.ru/media/ "Перейти к файлу истории"))
+([Ссылка](https://github.com/sergey-loev/Receiver_accounting_system/blob/master/bash_history.md "Перейти к файлу истории"))
 
 ![screenshot_5](screenshots/5.png)
 
