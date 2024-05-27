@@ -29,7 +29,7 @@
 животные и вьючные животные, в составы которых в случае домашних
 животных войдут классы: собаки, кошки, хомяки, а в класс вьючные животные
 войдут: Лошади, верблюды и ослы).  
-([Ссылка](https://github.com/sergey-loev/Receiver_accounting_system/blob/master/bash_history.md "Перейти к файлу .drawio"))
+([Ссылка](https://github.com/sergey-loev/Receiver_accounting_system/blob/master/Animals_UML.drawio "Перейти к файлу .drawio"))
 
 ![Animals diagram](screenshots/Animals_UML.jpg)
 
