@@ -1,49 +1,11 @@
-# Задание
-1. Используя команду cat в терминале операционной системы Linux, создать
-два файла Домашние животные (заполнив файл собаками, кошками,
-хомяками) и Вьючные животными заполнив файл Лошадьми, верблюдами и
-ослы), а затем объединить их. Просмотреть содержимое созданного файла.
-Переименовать файл, дав ему новое имя (Друзья человека). 
-
-![screenshot_1](screenshots/1.png)
-
-2. Создать директорию, переместить файл туда.
-
-![screenshot_2](screenshots/2.png)
-
-3. Подключить дополнительный репозиторий MySQL. Установить любой пакет
-из этого репозитория.
-
-![screenshot_3](screenshots/3.png)
-
-4. Установить и удалить deb-пакет с помощью dpkg.
-
-![screenshot_4](screenshots/4.png)
-
-5. Выложить историю команд в терминале ubuntu   
-([Ссылка](https://github.com/sergey-loev/Receiver_accounting_system/blob/master/bash_history.md "Перейти к файлу истории"))
-
-![screenshot_5](screenshots/5.png)
-
-6. Нарисовать диаграмму, в которой есть класс родительский класс, домашние
-животные и вьючные животные, в составы которых в случае домашних
-животных войдут классы: собаки, кошки, хомяки, а в класс вьючные животные
-войдут: Лошади, верблюды и ослы).  
-([Ссылка](https://github.com/sergey-loev/Receiver_accounting_system/blob/master/Animals_UML.drawio "Перейти к файлу .drawio"))
-
-![Animals diagram](screenshots/Animals_UML.jpg)
-
-7. В подключенном MySQL репозитории создать базу данных “Друзья
-человека”  
-([Ссылка](https://github.com/sergey-loev/Receiver_accounting_system/blob/master/Animals_UML.drawio "Перейти к файлу .drawio"))
-``` SQL
+/* Task 7
+В подключенном MySQL репозитории создать базу данных “Друзья человека” */
 DROP DATABASE IF EXISTS human_friends;
 CREATE DATABASE human_friends;
 USE human_friends;
-```
-8. Создать таблицы с иерархией из диаграммы в БД  
-([Ссылка](https://github.com/sergey-loev/Receiver_accounting_system/blob/master/Animals_UML.drawio "Перейти к файлу .drawio"))
-``` SQL
+
+/* Task 8
+Создать таблицы с иерархией из диаграммы в БД */
 CREATE TABLE animal_classes
 (
 	id INT AUTO_INCREMENT PRIMARY KEY, 
@@ -125,11 +87,10 @@ CREATE TABLE camels
     genus_id int,
     Foreign KEY (genus_id) REFERENCES packed_animals (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-```
-9. Заполнить низкоуровневые таблицы именами(животных), командами
-которые они выполняют и датами рождения  
-([Ссылка](https://github.com/sergey-loev/Receiver_accounting_system/blob/master/Animals_UML.drawio "Перейти к файлу .drawio"))
-``` SQL
+
+/* Task 9
+Заполнить низкоуровневые таблицы именами(животных), 
+командами которые они выполняют и датами рождения */
 INSERT INTO animal_classes (class_name)
 VALUES ('Вьючные'),
 ('Домашние');  
@@ -179,24 +140,23 @@ VALUES ('Бархан', '2022-04-10', 'Иди, Стой, Кушай', 3),
 ('Караван', '2019-03-12', 'Стой, Кушай', 3),  
 ('Казбек', '2015-07-12', 'Иди, Кушай', 3), 
 ('Захар', '2022-12-10', 'Иди, Стой', 3);
-```
-10. Удалив из таблицы верблюдов, т.к. верблюдов решили перевезти в другой
-питомник на зимовку. Объединить таблицы лошади, и ослы в одну таблицу.  
-([Ссылка](https://github.com/sergey-loev/Receiver_accounting_system/blob/master/Animals_UML.drawio "Перейти к файлу .drawio"))
-``` SQL
+
+/* Task 10
+Удалив из таблицы верблюдов, т.к. верблюдов решили перевезти 
+в другой питомник на зимовку. Объединить таблицы лошади, 
+и ослы в одну таблицу. */
 SET SQL_SAFE_UPDATES = 0;
 DELETE FROM camels;
 
 CREATE TABLE horses_donkeys AS
 SELECT name, birthday, commands FROM horses
 UNION SELECT name, birthday, commands FROM donkeys;
-```
-11. Создать новую таблицу “молодые животные” в которую попадут все
-животные старше 1 года, но младше 3 лет и в отдельном столбце с точностью
-до месяца подсчитать возраст животных в новой таблице  
-([Ссылка](https://github.com/sergey-loev/Receiver_accounting_system/blob/master/Animals_UML.drawio "Перейти к файлу .drawio"))
-``` SQL
-CREATE TABLE yang_animal AS
+
+/* Task 11
+Создать новую таблицу “молодые животные” в которую попадут все 
+животные старше 1 года, но младше 3 лет и в отдельном столбце 
+с точностью до месяца подсчитать возраст животных в новой таблице */
+CREATE TABLE yang_animals AS
 SELECT name, birthday, commands, genus_id, TIMESTAMPDIFF(MONTH, Birthday, CURDATE()) AS Age_in_month
 FROM horses WHERE birthday BETWEEN ADDDATE(curdate(), INTERVAL -3 YEAR) AND ADDDATE(CURDATE(), INTERVAL -1 YEAR)
 UNION SELECT name, birthday, commands, genus_id, TIMESTAMPDIFF(MONTH, Birthday, CURDATE()) AS Age_in_month
@@ -207,11 +167,10 @@ UNION SELECT name, birthday, commands, genus_id, TIMESTAMPDIFF(MONTH, Birthday, 
 FROM cats WHERE birthday BETWEEN ADDDATE(curdate(), INTERVAL -3 YEAR) AND ADDDATE(CURDATE(), INTERVAL -1 YEAR)
 UNION SELECT name, birthday, commands, genus_id, TIMESTAMPDIFF(MONTH, Birthday, CURDATE()) AS Age_in_month
 FROM hamsters WHERE birthday BETWEEN ADDDATE(curdate(), INTERVAL -3 YEAR) AND ADDDATE(CURDATE(), INTERVAL -1 YEAR);
-```
-12. Объединить все таблицы в одну, при этом сохраняя поля, указывающие на
-прошлую принадлежность к старым таблицам.  
-([Ссылка](https://github.com/sergey-loev/Receiver_accounting_system/blob/master/Animals_UML.drawio "Перейти к файлу .drawio"))
-``` SQL
+ 
+ /* Task 12
+Объединить все таблицы в одну, при этом сохраняя поля, 
+указывающие на прошлую принадлежность к старым таблицам. */
 CREATE TABLE animals AS
 SELECT horses.id, horses.name, horses.birthday, horses.commands, pa.genus_name, ac.class_name
 FROM horses
@@ -233,20 +192,6 @@ UNION SELECT hamsters.id, hamsters.name, hamsters.birthday, hamsters.commands, h
 FROM hamsters
 LEFT JOIN home_animals ha ON ha.id = hamsters.genus_id
 LEFT JOIN animal_classes ac ON ac.id =ha.class_id
-```
-13. Создать класс с Инкапсуляцией методов и наследованием по диаграмме.
 
-14. Написать программу, имитирующую работу реестра домашних животных.
-В программе должен быть реализован следующий функционал:
-    14.1 Завести новое животное  
-    14.2 Определять животное в правильный класс  
-    14.3 Увидеть список команд, которое выполняет животное  
-    14.4 Обучить животное новым командам  
-    14.5 Реализовать навигацию по меню
 
-15. Создайте класс Счетчик, у которого есть метод add(), увеличивающий
-значение внутренней int переменной на 1 при нажатие “Завести новое
-животное” Сделайте так, чтобы с объектом такого типа можно было работать в
-блоке try-with-resources. Нужно бросить исключение, если работа с объектом
-типа счетчик была не в ресурсном try и/или ресурс остался открыт. Значение
-считать в ресурсе try, если при заведения животного заполнены все поля.
+
