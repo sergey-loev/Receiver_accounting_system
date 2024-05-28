@@ -35,14 +35,14 @@
 
 7. В подключенном MySQL репозитории создать базу данных “Друзья
 человека”  
-([Ссылка](https://github.com/sergey-loev/Receiver_accounting_system/blob/master/Animals_UML.drawio "Перейти к файлу .drawio"))
+([Ссылка](https://github.com/sergey-loev/Receiver_accounting_system/blob/master/Human_friends.sql "Перейти к файлу .drawio"))
 ``` SQL
 DROP DATABASE IF EXISTS human_friends;
 CREATE DATABASE human_friends;
 USE human_friends;
 ```
 8. Создать таблицы с иерархией из диаграммы в БД  
-([Ссылка](https://github.com/sergey-loev/Receiver_accounting_system/blob/master/Animals_UML.drawio "Перейти к файлу .drawio"))
+([Ссылка](https://github.com/sergey-loev/Receiver_accounting_system/blob/master/Human_friends.sql "Перейти к файлу .drawio"))
 ``` SQL
 CREATE TABLE animal_classes
 (
@@ -128,7 +128,7 @@ CREATE TABLE camels
 ```
 9. Заполнить низкоуровневые таблицы именами(животных), командами
 которые они выполняют и датами рождения  
-([Ссылка](https://github.com/sergey-loev/Receiver_accounting_system/blob/master/Animals_UML.drawio "Перейти к файлу .drawio"))
+([Ссылка](https://github.com/sergey-loev/Receiver_accounting_system/blob/master/Human_friends.sql "Перейти к файлу .drawio"))
 ``` SQL
 INSERT INTO animal_classes (class_name)
 VALUES ('Вьючные'),
@@ -182,7 +182,7 @@ VALUES ('Бархан', '2022-04-10', 'Иди, Стой, Кушай', 3),
 ```
 10. Удалив из таблицы верблюдов, т.к. верблюдов решили перевезти в другой
 питомник на зимовку. Объединить таблицы лошади, и ослы в одну таблицу.  
-([Ссылка](https://github.com/sergey-loev/Receiver_accounting_system/blob/master/Animals_UML.drawio "Перейти к файлу .drawio"))
+([Ссылка](https://github.com/sergey-loev/Receiver_accounting_system/blob/master/Human_friends.sql "Перейти к файлу .drawio"))
 ``` SQL
 SET SQL_SAFE_UPDATES = 0;
 DELETE FROM camels;
@@ -194,7 +194,7 @@ UNION SELECT name, birthday, commands FROM donkeys;
 11. Создать новую таблицу “молодые животные” в которую попадут все
 животные старше 1 года, но младше 3 лет и в отдельном столбце с точностью
 до месяца подсчитать возраст животных в новой таблице  
-([Ссылка](https://github.com/sergey-loev/Receiver_accounting_system/blob/master/Animals_UML.drawio "Перейти к файлу .drawio"))
+([Ссылка](https://github.com/sergey-loev/Receiver_accounting_system/blob/master/Human_friends.sql "Перейти к файлу .drawio"))
 ``` SQL
 CREATE TABLE yang_animal AS
 SELECT name, birthday, commands, genus_id, TIMESTAMPDIFF(MONTH, Birthday, CURDATE()) AS Age_in_month
@@ -210,7 +210,7 @@ FROM hamsters WHERE birthday BETWEEN ADDDATE(curdate(), INTERVAL -3 YEAR) AND AD
 ```
 12. Объединить все таблицы в одну, при этом сохраняя поля, указывающие на
 прошлую принадлежность к старым таблицам.  
-([Ссылка](https://github.com/sergey-loev/Receiver_accounting_system/blob/master/Animals_UML.drawio "Перейти к файлу .drawio"))
+([Ссылка](https://github.com/sergey-loev/Receiver_accounting_system/blob/master/Human_friends.sql "Перейти к файлу .drawio"))
 ``` SQL
 CREATE TABLE animals AS
 SELECT horses.id, horses.name, horses.birthday, horses.commands, pa.genus_name, ac.class_name
